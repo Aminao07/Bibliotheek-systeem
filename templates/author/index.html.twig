@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alle schrijvers{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="container py-5">
+
+        <h1 class="page-title text-center mb-4">Alle schrijvers</h1>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-center mb-4">
+                <a href="{{ path('author_add') }}" class="btn btn-success">
+                    <i class="bi bi-plus-lg"></i> Voeg Auteur Toe
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="author-grid-frame p-3">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for author in authors %}
+                    <div class="col">
+                        <div class="card author-card h-100 border-3 border-warning shadow-sm">
+                            <a href="{{ path('author_show', {id: author.id}) }}">
+                                <div class="author-img-wrapper">
+                                    <img src="{{ asset('img/' ~ author.img) }}" class="card-img-top" alt="{{ author.name }}">
+                                </div>
+                            </a>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ author.name }}</h5>
+
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <div class="d-flex justify-content-center gap-2 mt-2">
+                                        <a href="{{ path('author_edit', {id: author.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ path('author_delete', {id: author.id}) }}" class="btn btn-danger btn-sm">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

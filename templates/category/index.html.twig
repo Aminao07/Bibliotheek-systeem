@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    {% set colors = [
+        'libra-book-green', 'libra-book-blue', 'libra-book-umber', 'libra-book-springer',
+        'libra-book-red', 'libra-book-purple', 'libra-book-orange', 'libra-book-teal',
+        'libra-book-pink', 'libra-book-grey'
+    ] %}
+
+    {% set shelves = categories|batch(5) %}
+    <div class="libra-bookshelf-wrapper">
+        {% for shelf in shelves %}
+            <div class="libra-bookshelf">
+                {% for category in shelf %}
+                    {% set tilt = random(0,1) %}
+                    <a href="{{ path('category_show', {id: category.id}) }}" class="libra-book-link">
+                        <div class="libra-book {{ colors[(loop.parent.loop.index0 * 5 + loop.index0) % colors|length] }} {% if tilt %}libra-book-tilted{% else %}libra-book-straight{% endif %}">
+                            <h2 class="libra-book-title">{{ category.name }}</h2>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}schrijver{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+
+    <a href="javascript:history.back()" class="btn btn-return-library btn-sm">
+        ← Go Back
+    </a>
+
+<h1 class="author-title">{{ author.name }}</h1>
+
+<div class="open-book">
+    <!-- Left page: author info -->
+    <div class="book-left">
+        <img src="{{ asset('img/' ~ author.img) }}" alt="{{ author.name }}" width="200">
+        <p class="author-desc">{{ author.description }}</p>
+        <p class="author-year">Jaar: {{ author.year|date('Y') }}</p>
+    </div>
+
+    <!-- Right page: author's books -->
+    <div class="book-right">
+        <h2>Boeken van {{ author.name }}</h2>
+        <div class="books-grid">
+            {% for book in author.books %}
+                <div class="book-card">
+                    <a href="{{ path('book_show', {id: book.id}) }}">
+                        <img src="{{ asset('img/' ~ book.img) }}" alt="{{ book.title }}">
+                        <div class="book-title">{{ book.title }}</div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
